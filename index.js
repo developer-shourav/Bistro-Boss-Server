@@ -27,13 +27,16 @@ app.use(express.json())
     });
 
 
-    const menuCollection = client.db("bistroDB").collection("menu");
+   
 
     async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
+        const menuCollection = client.db("bistroDB").collection("menu");
+
+        
         app.get('/menu', async(req, res) => {
            
             const result = await menuCollection.find().toArray() ;
