@@ -36,6 +36,7 @@ app.use(express.json())
 
         const menuCollection = client.db("bistroDB").collection("menu");
         const reviewCollection = client.db("bistroDB").collection("reviews");
+        const cartCollection = client.db("bistroDB").collection("carts");
 
         
         app.get('/menu', async(req, res) => {
@@ -75,3 +76,21 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Our Bistro Boss is Running on the PORT ${port}`);
 })
+
+
+
+/**
+ * --------------------------------------------------
+ *            API NAMING CONVENTION
+ * --------------------------------------------------
+ * users: userCollection
+ * 
+ * app.get('/users')
+ * app.get('/users/:id')
+ * app.post('/users')
+ * app.patch('/users/:id')
+ * app.put('/users/:id')
+ * app.delete('/users/:id')
+ * 
+ * 
+ * */
