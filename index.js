@@ -53,9 +53,12 @@ app.use(express.json())
 
         app.post('/carts', async(req, res) => {
             const item = req.body;
-            console.log(item);
-
             const result = await cartCollection.insertOne(item);
+            res.send(result)
+        })
+
+        app.get('/carts', async(req, res) => {
+            const result = await cartCollection.find().toArray();
             res.send(result)
         })
 
