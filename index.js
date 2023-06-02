@@ -34,24 +34,37 @@ app.use(express.json())
         // Connect the client to the server	(optional starting in v4.7)
        /*  await client.connect(); */
 
+        const usersCollection = client.db("bistroDB").collection("users");
         const menuCollection = client.db("bistroDB").collection("menu");
         const reviewCollection = client.db("bistroDB").collection("reviews");
         const cartCollection = client.db("bistroDB").collection("carts");
 
-        
+
+
+        /* -----------Users Related API------------ */
+        app.post('/users', async(req, res)  => {
+          
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            res.send(result)
+        })
+
+
+        /* -----------Menu Related API------------ */
         app.get('/menu', async(req, res) => {
            
             const result = await menuCollection.find().toArray() ;
             res.send(result)
         })
 
+        /* -----------Reviews Related API------------ */
         app.get('/reviews', async(req, res) => {
            
             const result = await reviewCollection.find().toArray() ;
             res.send(result)
         })
 
-
+        /* -----------Shopping Cart  Related API------------ */
         app.get('/carts', async(req, res) => {
             const email = req.query.email ;
             if(!email){
