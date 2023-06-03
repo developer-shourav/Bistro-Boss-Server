@@ -45,8 +45,15 @@ app.use(express.json())
         app.post('/users', async(req, res)  => {
           
             const user = req.body;
-            const result = await usersCollection.insertOne(user);
-            res.send(result)
+            const query = {email : user.email};
+            const existingUser = await usersCollection.findOne(query);
+            if(existingUser){
+                res.send({message:'User Already exist.'})
+            }
+            else{
+                const result = await usersCollection.insertOne(user);
+                res.send(result)
+            }
         })
 
 
