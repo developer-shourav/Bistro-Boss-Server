@@ -46,6 +46,20 @@ app.use(express.json())
         app.get( '/users', async(req, res) => {
             const result = await usersCollection.find().toArray();
             res.send(result)
+        });
+
+
+        app.patch('/users/admin/:id', async(req, res) => {
+           const iD = req.params.id;
+           const filter = {_id : new ObjectId(iD)};
+           const updateDoc = {
+            $set: {
+                role:'admin'
+            },
+           };
+
+           const result = await usersCollection.updateOne(filter, updateDoc);
+           res.send(result);
         })
 
 
@@ -61,7 +75,7 @@ app.use(express.json())
                 const result = await usersCollection.insertOne(user);
                 res.send(result)
             }
-        })
+        });
 
 
         /* -----------Menu Related API------------ */
@@ -69,14 +83,14 @@ app.use(express.json())
            
             const result = await menuCollection.find().toArray() ;
             res.send(result)
-        })
+        });
 
         /* -----------Reviews Related API------------ */
         app.get('/reviews', async(req, res) => {
            
             const result = await reviewCollection.find().toArray() ;
             res.send(result)
-        })
+        });
 
         /* -----------Shopping Cart  Related API------------ */
         app.get('/carts', async(req, res) => {
@@ -90,20 +104,20 @@ app.use(express.json())
                 const result = await cartCollection.find(query).toArray();
                 res.send(result)
             }
-        })
+        });
 
         app.post('/carts', async(req, res) => {
             const item = req.body;
             const result = await cartCollection.insertOne(item);
             res.send(result)
-        })
+        });
 
         app.delete('/carts/:id', async(req, res) => {
             const iD = req.params.id;
             const query = {_id : new ObjectId(iD)};
             const result = await cartCollection.deleteOne(query);
             res.send(result)
-        })
+        });
 
 
         // Send a ping to confirm a successful connection
