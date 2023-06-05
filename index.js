@@ -87,6 +87,27 @@ const port = process.env.PORT || 7000 ;
         });
 
 
+
+       /* --------- Security layer -------------
+        One: verifyJWT
+        Two: emails are same or not
+        Three: Check admin
+       */
+       
+        app.get('/users/admin/:email', verifyJWT,  async(req, res) => {
+            const email = req.params.email;
+
+            if(req.decoded.email !== email){
+                res.send({admin:false})
+            }
+            const query = {email: email};
+            const user = await usersCollection.findOne(query);
+            const result = {admin: user?.role === 'admin'};
+            res.send(result)
+
+        })
+
+
         app.patch('/users/admin/:id', async(req, res) => {
            const iD = req.params.id;
            const filter = {_id : new ObjectId(iD)};
